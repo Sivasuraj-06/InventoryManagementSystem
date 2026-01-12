@@ -5,6 +5,11 @@ import cors from "cors";
 import morgan from "morgan";
 import helmet from "helmet";
 /* ROUTE IMPORTS */
+import dashboardRoutes from "./routes/dashboardRoutes";
+import productRoutes from "./routes/productRoutes";
+import userRoutes from "./routes/userRoutes";
+import expenseRoutes from "./routes/expenseRoutes";
+
 
 /* CONFIGURATIONS */
 dotenv.config();
@@ -18,9 +23,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
 /* ROUTES */
-app.get("/hello",(req,res)=>{
-    res.send("Hello World!");
-});
+app.use("/dashboard",dashboardRoutes); 
+app.use("/products",productRoutes);
+app.use("/users",userRoutes);
+app.use("/expenses",expenseRoutes);
 /* SERVER */
 const port = process.env.PORT || 3001;
 app.listen(port,()=>{
