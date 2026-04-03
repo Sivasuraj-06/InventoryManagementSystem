@@ -28,6 +28,9 @@ const CardPurchaseSummary = () => {
 
   const lastDataPoint = purchaseData[purchaseData.length - 1] || null;
 
+  // safer handling instead of using !
+  const change = lastDataPoint?.changePercentage ?? 0;
+
   return (
     <div className="flex flex-col justify-between row-span-2 xl:row-span-3 col-span-1 md:col-span-2 xl:col-span-1 bg-white shadow-md rounded-2xl">
       {isLoading ? (
@@ -57,17 +60,15 @@ const CardPurchaseSummary = () => {
                 {lastDataPoint && (
                   <p
                     className={`text-sm ${
-                      lastDataPoint.changePercentage! >= 0
-                        ? "text-green-500"
-                        : "text-red-500"
+                      change >= 0 ? "text-green-500" : "text-red-500"
                     } flex ml-3`}
                   >
-                    {lastDataPoint.changePercentage! >= 0 ? (
+                    {change >= 0 ? (
                       <TrendingUp className="w-5 h-5 mr-1" />
                     ) : (
                       <TrendingDown className="w-5 h-5 mr-1" />
                     )}
-                    {Math.abs(lastDataPoint.changePercentage!)}%
+                    {Math.abs(change)}%
                   </p>
                 )}
               </div>
@@ -83,9 +84,9 @@ const CardPurchaseSummary = () => {
                 <YAxis tickLine={false} tick={false} axisLine={false} />
 
                 <Tooltip
-                  formatter={(value: number) => [
-                    formatINRFromUSD(value),
-                  ]}
+                  formatter={(value) =>
+                    formatINRFromUSD((value as number) ?? 0)
+                  }
                   labelFormatter={(label) => {
                     const date = new Date(label);
                     return date.toLocaleDateString("en-IN", {
