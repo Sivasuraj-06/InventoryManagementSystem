@@ -10,7 +10,7 @@ type StatDetail = {
 
 type StatCardProps = {
   title: string;
-  primaryIcon: JSX.Element;
+  primaryIcon: React.ReactNode;
   details?: StatDetail[]; // ✅ optional to avoid crash
   dateRange: string;
 };
@@ -75,12 +75,12 @@ const StatCard = ({
                   <div className="flex items-center">
                     <detail.IconComponent
                       className={`w-4 h-4 mr-1 ${getChangeColor(
-                        detail.changePercentage
+                        detail.changePercentage,
                       )}`}
                     />
                     <span
                       className={`font-medium ${getChangeColor(
-                        detail.changePercentage
+                        detail.changePercentage,
                       )}`}
                     >
                       {formatPercentage(detail.changePercentage)}
