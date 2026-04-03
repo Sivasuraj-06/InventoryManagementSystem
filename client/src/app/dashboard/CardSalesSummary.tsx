@@ -25,7 +25,7 @@ const CardSalesSummary = () => {
 
   const averageChangePercentage =
     salesData.reduce((acc, curr, _, array) => {
-      return acc + curr.changePercentage! / array.length;
+      return acc + (curr.changePercentage ?? 0) / array.length;
     }, 0) || 0;
 
   const highestValueData = salesData.reduce((acc, curr) => {
@@ -66,10 +66,13 @@ const CardSalesSummary = () => {
                 <p className="text-xs text-gray-400">Value</p>
                 <span className="text-2xl font-extrabold">
                   ₹
-                  {((totalValueSum * USD_TO_INR) / 1e7).toLocaleString("en-IN", {
-                    maximumFractionDigits: 2,
-                  })}
-                  {" "}Cr
+                  {((totalValueSum * USD_TO_INR) / 1e7).toLocaleString(
+                    "en-IN",
+                    {
+                      maximumFractionDigits: 2,
+                    },
+                  )}{" "}
+                  Cr
                 </span>
                 <span className="text-green-500 text-sm ml-2">
                   <TrendingUp className="inline w-4 h-4 mr-1" />
@@ -114,9 +117,10 @@ const CardSalesSummary = () => {
                   axisLine={false}
                 />
                 <Tooltip
-                  formatter={(value: number) => {
-                    const inr = value * USD_TO_INR;
-                    return [`₹${inr.toLocaleString("en-IN")}`];
+                  formatter={(value) => {
+                    const safeValue = (value as number) ?? 0;
+                    const inr = safeValue * USD_TO_INR;
+                    return `₹${inr.toLocaleString("en-IN")}`;
                   }}
                   labelFormatter={(label) => {
                     const date = new Date(label);
