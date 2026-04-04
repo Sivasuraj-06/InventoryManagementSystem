@@ -8,7 +8,6 @@ import {
   Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
 } from "recharts";
 
 /** USD → INR conversion rate */
@@ -31,7 +30,7 @@ const CardPurchaseSummary = () => {
   const change = lastDataPoint?.changePercentage ?? 0;
 
   return (
-    <div className="flex flex-col justify-between row-span-2 xl:row-span-3 col-span-1 md:col-span-2 xl:col-span-1 bg-white shadow-md rounded-2xl overflow-hidden">
+    <div className="flex flex-col h-full row-span-2 xl:row-span-3 col-span-1 md:col-span-2 xl:col-span-1 bg-white shadow-md rounded-2xl overflow-hidden">
       {isLoading ? (
         <div className="m-5">Loading...</div>
       ) : (
@@ -45,7 +44,7 @@ const CardPurchaseSummary = () => {
           </div>
 
           {/* BODY */}
-          <div>
+          <div className="flex flex-col flex-grow">
             {/* SUMMARY */}
             <div className="mb-4 mt-7 px-7">
               <p className="text-xs text-gray-400">Purchased</p>
@@ -74,26 +73,14 @@ const CardPurchaseSummary = () => {
             </div>
 
             {/* CHART */}
-            <div className="px-7 pb-5">
-              <ResponsiveContainer width="100%" height={200}>
+            <div className="flex-grow">
+              <ResponsiveContainer width="100%" height="100%">
                 <AreaChart
                   data={purchaseData}
-                  margin={{ top: 10, right: 20, left: 0, bottom: 20 }}
+                  margin={{ top: 0, right: +20, left: -30, bottom: 0 }}
                 >
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} />
-
-                  <XAxis
-                    dataKey="date"
-                    tick={{ fontSize: 10 }}
-                    axisLine={false}
-                    tickLine={false}
-                  />
-
-                  <YAxis
-                    tick={{ fontSize: 10 }}
-                    axisLine={false}
-                    tickLine={false}
-                  />
+                  <XAxis dataKey="date" tick={false} axisLine={false} />
+                  <YAxis tickLine={false} tick={false} axisLine={false} />
 
                   <Tooltip
                     formatter={(value) =>
@@ -107,22 +94,14 @@ const CardPurchaseSummary = () => {
                         day: "numeric",
                       });
                     }}
-                    contentStyle={{
-                      borderRadius: "8px",
-                      border: "none",
-                      boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-                    }}
                   />
 
                   <Area
-                    type="monotone"
+                    type="linear"
                     dataKey="totalPurchased"
-                    stroke="#6366f1"
-                    fill="#6366f1"
-                    fillOpacity={0.2}
-                    strokeWidth={2}
-                    dot={{ r: 3 }}
-                    activeDot={{ r: 6 }}
+                    stroke="#8884d8"
+                    fill="#8884d8"
+                    dot={true}
                   />
                 </AreaChart>
               </ResponsiveContainer>
