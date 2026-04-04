@@ -8,9 +8,10 @@ import {
   Tooltip,
   XAxis,
   YAxis,
+  CartesianGrid,
 } from "recharts";
 
-/** USD → INR conversion rate (hard-coded as requested) */
+/** USD → INR conversion rate */
 const USD_TO_INR = 83;
 
 const formatINRFromUSD = (usd: number) => {
@@ -27,12 +28,10 @@ const CardPurchaseSummary = () => {
   const purchaseData = data?.purchaseSummary || [];
 
   const lastDataPoint = purchaseData[purchaseData.length - 1] || null;
-
-  // safer handling instead of using !
   const change = lastDataPoint?.changePercentage ?? 0;
 
   return (
-    <div className="flex flex-col justify-between row-span-2 xl:row-span-3 col-span-1 md:col-span-2 xl:col-span-1 bg-white shadow-md rounded-2xl">
+    <div className="flex flex-col justify-between row-span-2 xl:row-span-3 col-span-1 md:col-span-2 xl:col-span-1 bg-white shadow-md rounded-2xl overflow-hidden">
       {isLoading ? (
         <div className="m-5">Loading...</div>
       ) : (
@@ -47,7 +46,7 @@ const CardPurchaseSummary = () => {
 
           {/* BODY */}
           <div>
-            {/* BODY HEADER */}
+            {/* SUMMARY */}
             <div className="mb-4 mt-7 px-7">
               <p className="text-xs text-gray-400">Purchased</p>
               <div className="flex items-center">
@@ -75,37 +74,59 @@ const CardPurchaseSummary = () => {
             </div>
 
             {/* CHART */}
-            <ResponsiveContainer width="100%" height={200} className="p-2">
-              <AreaChart
-                data={purchaseData}
-                margin={{ top: 0, right: 0, left: -50, bottom: 45 }}
-              >
-                <XAxis dataKey="date" tick={false} axisLine={false} />
-                <YAxis tickLine={false} tick={false} axisLine={false} />
+            <div className="px-7 pb-5">
+              <ResponsiveContainer width="100%" height={200}>
+                <AreaChart
+                  data={purchaseData}
+                  margin={{ top: 10, right: 20, left: 0, bottom: 20 }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} />
 
-                <Tooltip
-                  formatter={(value) =>
-                    formatINRFromUSD((value as number) ?? 0)
-                  }
-                  labelFormatter={(label) => {
-                    const date = new Date(label);
-                    return date.toLocaleDateString("en-IN", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    });
-                  }}
-                />
+                  <XAxis
+                    dataKey="date"
+                    tick={{ fontSize: 10 }}
+                    axisLine={false}
+                    tickLine={false}
+                  />
 
-                <Area
-                  type="linear"
-                  dataKey="totalPurchased"
-                  stroke="#8884d8"
-                  fill="#8884d8"
-                  dot={true}
-                />
-              </AreaChart>
-            </ResponsiveContainer>
+                  <YAxis
+                    tick={{ fontSize: 10 }}
+                    axisLine={false}
+                    tickLine={false}
+                  />
+
+                  <Tooltip
+                    formatter={(value) =>
+                      formatINRFromUSD((value as number) ?? 0)
+                    }
+                    labelFormatter={(label) => {
+                      const date = new Date(label);
+                      return date.toLocaleDateString("en-IN", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      });
+                    }}
+                    contentStyle={{
+                      borderRadius: "8px",
+                      border: "none",
+                      boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                    }}
+                  />
+
+                  <Area
+                    type="monotone"
+                    dataKey="totalPurchased"
+                    stroke="#6366f1"
+                    fill="#6366f1"
+                    fillOpacity={0.2}
+                    strokeWidth={2}
+                    dot={{ r: 3 }}
+                    activeDot={{ r: 6 }}
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
           </div>
         </>
       )}
