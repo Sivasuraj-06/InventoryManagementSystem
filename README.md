@@ -23,7 +23,7 @@ AWS services are integrated, including:
 You can access the deployed application here:
 
 **Deployed App:**  
-https://master.d115tpy17nl4ew.amplifyapp.com/dashboard
+https://master.d115tpy17nl4ew.amplifyapp.com
 
 ---
 
