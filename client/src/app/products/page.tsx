@@ -9,6 +9,7 @@ import CreateProductModal from "./CreateProductModal";
 import Image from "next/image";
 
 type ProductFormData = {
+  productId: string;
   name: string;
   price: number; // stored in USD
   stockQuantity: number;
@@ -37,7 +38,12 @@ const Products = () => {
   const [createProduct] = useCreateProductMutation();
 
   const handleCreateProduct = async (productData: ProductFormData) => {
-    await createProduct(productData);
+    try {
+      const result = await createProduct(productData).unwrap();
+      console.log("Created:", result);
+    } catch (error) {
+      console.error("Create failed:", error);
+    }
   };
 
   if (isLoading) {
@@ -89,7 +95,7 @@ const Products = () => {
             <div className="flex flex-col items-center">
               <Image
                 src={`https://s3inventorymanagementsystem06.s3.us-east-1.amazonaws.com/product${Math.floor(Math.random() * 3) + 1}.png`}
-                alt="{product.name}"
+                alt={product.name}
                 width={150}
                 height={150}
                 className="mb-3 rounded-2xl w-36 h-36"

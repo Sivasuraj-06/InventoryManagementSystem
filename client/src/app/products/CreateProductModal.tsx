@@ -3,8 +3,9 @@ import { v4 } from "uuid";
 import Header from "@/app/(components)/Header";
 
 type ProductFormData = {
+  productId: string;
   name: string;
-  price: number; // PRICE SENT TO DB (USD)
+  price: number;
   stockQuantity: number;
   rating: number;
 };
@@ -48,8 +49,9 @@ const CreateProductModal = ({
 
     // ✅ Convert INR → USD JUST BEFORE SAVING TO DB
     const dataToSave: ProductFormData = {
+      productId: formData.productId, // ✅ include this
       name: formData.name,
-      price: Number((formData.price * INR_TO_USD).toFixed(2)), // USD stored in DB
+      price: Number((formData.price * INR_TO_USD).toFixed(2)),
       stockQuantity: formData.stockQuantity,
       rating: formData.rating,
     };
