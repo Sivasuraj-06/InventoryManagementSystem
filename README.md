@@ -18,6 +18,14 @@ AWS services are integrated, including:
 - S3 (storage)
 
 ---
+## Live Demo
+
+You can access the deployed application here:
+
+🔗 **Deployed App:**  
+https://master.d115tpy17nl4ew.amplifyapp.com/dashboard
+
+---
 
 ## Overview
 
@@ -182,10 +190,10 @@ Frontend runs on: http://localhost:3000
 
 ## API Endpoints
 
-  Method   Endpoint     Description
-  -------- ------------ ----------------------------------
-  GET      /dashboard   Fetch dashboard metrics
-  GET      /products    Get all products (with search)
-  POST     /products    Create a product
-  GET      /users       Get all users
-  GET      /expenses    Get expenses grouped by category
+| Method | Endpoint     | Description                          |
+|--------|-------------|--------------------------------------|
+| GET    | /dashboard  | Fetch dashboard metrics              |
+| GET    | /products   | Get all products (with search)       |
+| POST   | /products   | Create a product                     |
+| GET    | /users      | Get all users                        |
+| GET    | /expenses   | Get expenses grouped by category     |
